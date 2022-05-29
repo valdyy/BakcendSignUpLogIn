@@ -68,7 +68,7 @@ app.post('/register/',(req,res,next)=>{
                     console.log('[MySQL ERROR]', err);
                     res.json('Register error: ', err);
                 });
-                return res.status(200).json({
+                return res.status(201).json({
                     error: false,
                     message: 'User Created'
                 });
@@ -100,13 +100,17 @@ app.post('/login/', (req,res,next)=>{
                     loginResult: {
                         userId: `${id}`,
                         name: `${name}`,
+                        token: `${password}`
                     }
                 });
             }else{
                 res.end(JSON.stringify('Wrong Password!'));
             }
         }else{
-            res.json('User Does Not Exist!');
+            return res.status(200).json({
+                error: true,
+                message: 'User Does Not Exist!'
+            });
         }
     });
 })
